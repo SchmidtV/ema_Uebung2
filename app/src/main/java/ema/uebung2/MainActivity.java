@@ -30,7 +30,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private ArrayList<String[]> values;
     private boolean saveValues = false;
     private CSVWriter writer;
-    ProgressBar xProgressBar;
+    private ProgressBar xProgressBar;
+    private ProgressBar yProgressBar;
+    private ProgressBar zProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startButton = (Button)findViewById(R.id.startButton);
         stopButton = (Button)findViewById(R.id.stopButton);
         xProgressBar = (ProgressBar) findViewById(R.id.xProgressbar);
+        yProgressBar = (ProgressBar) findViewById(R.id.yProgressbar);
+        zProgressBar = (ProgressBar) findViewById(R.id.zProgressbar);
 
     }
 
@@ -87,10 +91,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
         xText.setText(getString(R.string.xText, event.values[0]));
-        xProgressBar.setProgress((int)(event.values[0]*100));
-        yText.setText(getString(R.string.yText, event.values[1]));
-        zText.setText(getString(R.string.zText, event.values[2]));
+        if(event.values[0] >= 0){
+            xProgressBar.setProgress(Math.round(event.values[0]*50));
+//            xProgressBar.getIndeterminateDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+        }else{
+            xProgressBar.setProgress((int)(event.values[0]*-50));
+//            xProgressBar.getIndeterminateDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+        }
 
+        yText.setText(getString(R.string.yText, event.values[1]));
+        if(event.values[1] >= 0){
+            yProgressBar.setProgress(Math.round(event.values[1]*50));
+//            Drawable progressDrawable = yProgressBar.getProgressDrawable().mutate();
+//            progressDrawable.setColorFilter(Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
+//            yProgressBar.setProgressDrawable(progressDrawable);
+//            yProgressBar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+        }else{
+            yProgressBar.setProgress((int)(event.values[1]*-50));
+//            Drawable progressDrawable = yProgressBar.getProgressDrawable().mutate();
+//            progressDrawable.setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+//            yProgressBar.setProgressDrawable(progressDrawable);
+//            yProgressBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+        }
+
+        zText.setText(getString(R.string.zText, event.values[2]));
+        if(event.values[1] >= 0){
+            zProgressBar.setProgress(Math.round(event.values[2]*50));
+        }else{
+            zProgressBar.setProgress((int)(event.values[2]*-50));
+        }
         if(saveValues && values.size() < 2000){
             String[] toStore = {Float.toString(event.values[0]), Float.toString(event.values[1]),Float.toString(event.values[2])};
             values.add(toStore);
