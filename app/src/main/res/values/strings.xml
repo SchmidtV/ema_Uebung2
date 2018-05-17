@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Uebung2</string>
+    <string name="status">App launched</string>
+    <string name="xText">X: %1$f</string>
+    <string name="yText">Y: %1$f</string>
+    <string name="zText">Z: %1$f</string>
+    <string name="startButton">Start</string>
+    <string name="stopButton">Stop</string>
+</resources>
